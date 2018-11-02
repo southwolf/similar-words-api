@@ -13,7 +13,10 @@ print('Loaded')
 def similar():
     try:
         word = request.args.get('w')
-        resp_json = { 'word': word, 'results': word_vectors.most_similar(word) }
+        similar_words = word_vectors.most_similar(word)
+        results = [item[0] for item in similar_words]
+        results.insert(0, word)
+        resp_json = { 'word': word, 'results': results,'details': similar_words }
         resp = make_response(json.dumps(resp_json))
         return resp
     except:
